@@ -12,10 +12,22 @@ namespace StateCensusAnalyserProblem
         {
 
             StateCensusAnalyser analyser = new StateCensusAnalyser(@"C:\Users\91997\source\repos\StateCensusAnalyserProblem\Analyser.csv");
-            List<string[]> data = analyser.LoadData();
-            foreach (var item in data)
+            //List<string[]> data = analyser.LoadData();
+            //foreach (var item in data)
+            //{
+            //    Console.WriteLine(string.Join(",", item));
+            //}
+            //Console.ReadKey();
+
+            int expectedRecords = 4;
+            int actualRecords = analyser.GetNumberOfRecodrs();
+            if (expectedRecords == actualRecords)
             {
-                Console.WriteLine(string.Join(",", item));
+                Console.WriteLine("Test case passed. Number of records match.");
+            }
+            else
+            {
+                Console.WriteLine("Test case failed.Expected records, but got Actual records.");
             }
             Console.ReadKey();
 
