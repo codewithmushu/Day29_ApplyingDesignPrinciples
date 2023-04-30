@@ -11,7 +11,7 @@ namespace StateCensusAnalyserProblem
         static void Main(string[] args)
         {
 
-            StateCensusAnalyser analyser = new StateCensusAnalyser(@"C:\Users\91997\source\repos\StateCensusAnalyserProblem\Analyser.csv");
+            //StateCensusAnalyser analyser = new StateCensusAnalyser(@"C:\Users\91997\source\repos\StateCensusAnalyserProblem\Analyser.csv");
             //List<string[]> data = analyser.LoadData();
             //foreach (var item in data)
             //{
@@ -19,15 +19,35 @@ namespace StateCensusAnalyserProblem
             //}
             //Console.ReadKey();
 
-            int expectedRecords = 4;
-            int actualRecords = analyser.GetNumberOfRecodrs();
-            if (expectedRecords == actualRecords)
+            //int expectedRecords = 4;
+            //int actualRecords = analyser.GetNumberOfRecodrs();
+            //if (expectedRecords == actualRecords)
+            //{
+            //    Console.WriteLine("Test case passed. Number of records match.");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Test case failed.Expected records, but got Actual records.");
+            //}
+            //Console.ReadKey();
+
+            try
             {
-                Console.WriteLine("Test case passed. Number of records match.");
+                StateCensusAnalyser analyser = new StateCensusAnalyser(@"C:\Users\91997\source\repos\StateCensusAnalyserProblem\Analyser.csv");
+                int expectedRecords = 4;
+                int actualRecords = analyser.GetNumberOfRecodrs();
+                if (actualRecords == expectedRecords)
+                {
+                    Console.WriteLine("Test case passed. Number of records match.");
+                }
+                else
+                {
+                    Console.WriteLine($"Test case failed. Expected {expectedRecords} records, but got {actualRecords}.");
+                }
             }
-            else
+            catch (CSVFormatException e)
             {
-                Console.WriteLine("Test case failed.Expected records, but got Actual records.");
+                Console.WriteLine($"Test case failed. {e.Message}");
             }
             Console.ReadKey();
 
