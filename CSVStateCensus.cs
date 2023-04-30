@@ -31,5 +31,19 @@ namespace StateCensusAnalyserProblem
                 }
             }
         }
+
+        public List<string[]> LoadData()
+        {
+            data.Clear();
+            foreach (string[] row in GetData())
+            {
+                data.Add(row);
+            }
+            return data;
+        }
+        public int GetNumberOfRecords()
+        {
+            return data.Count;
+        }
     }
 }
