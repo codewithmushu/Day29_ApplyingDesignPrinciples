@@ -9,10 +9,12 @@ namespace StateCensusAnalyserProblem
     public class StateCensusAnalyser
     {
         private string filePath;
+        private CSVStateCensus csvStateCensus;
 
         public StateCensusAnalyser(string filePath)
         {
             this.filePath = filePath;
+            csvStateCensus = new CSVStateCensus(filePath);
         }
 
         public List<string[]> LoadData()
@@ -27,6 +29,12 @@ namespace StateCensusAnalyserProblem
             }
 
             return dataList;
+        }
+
+        public int GetNumberOfRecodrs()
+        {
+            csvStateCensus.LoadData();
+            return csvStateCensus.GetNumberOfRecords();
         }
     }
 }
