@@ -54,20 +54,31 @@ namespace StateCensusAnalyserProblem
             //}
 
 
-            try
+            //try
+            //{
+            //    StateCensusAnalyser analyser = new StateCensusAnalyser(@"C:\Users\91997\source\repos\StateCensusAnalyserProblem\Analyser.csv");
+            //    List<string[]> data = analyser.data;
+            //    foreach (var item in data)
+            //    {
+            //        Console.WriteLine(string.Join(",", item));
+            //    }
+            //    Console.ReadKey();
+            //}
+            //catch (CensusAnalyserException ex)
+            //{
+            //    Console.WriteLine($"Exception caught: {ex.Message} with type {ex.exceptionType}");
+            //}
+
+
+
+            var csvStates = new CSVStates(@"C:\Users\91997\source\repos\StateCensusAnalyserProblem\IndianStates.csv");
+            int count = 0;
+            foreach (var row in csvStates)
             {
-                StateCensusAnalyser analyser = new StateCensusAnalyser(@"C:\Users\91997\source\repos\StateCensusAnalyserProblem\Analyser.csv");
-                List<string[]> data = analyser.data;
-                foreach (var item in data)
-                {
-                    Console.WriteLine(string.Join(",", item));
-                }
-                Console.ReadKey();
+                count++;
+                
             }
-            catch (CensusAnalyserException ex)
-            {
-                Console.WriteLine($"Exception caught: {ex.Message} with type {ex.exceptionType}");
-            }
+            Console.WriteLine("Number of records: " + count);
 
         }
     }
