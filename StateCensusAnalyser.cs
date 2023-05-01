@@ -9,40 +9,12 @@ namespace StateCensusAnalyserProblem
 {
     public class StateCensusAnalyser
     {
-        private readonly string filePath;
-
-        public StateCensusAnalyser(string filePath)
+        public int LoadData(string filePath, char delimiter = ',')
         {
-            this.filePath = filePath;
-        }
-
-        public List<string[]> LoadData()
-        {
-            var csvData = new CSVStateCensus();
-
-            try
-            {
-                var data = csvData.GetData(filePath);
-                return data.ToList();
-            }
-            catch (FileNotFoundException ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            catch (InvalidDataException ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
-            return null;
+            CSVStateCensus csvData = new CSVStateCensus();
+            IEnumerable<string[]> data = csvData.GetData(filePath, delimiter);
+            return ((List<string[]>)data).Count;
         }
     }
-    
-    public class CensusAnalyserException : Exception
-    {
-        public CensusAnalyserException(string message) : base(message)
-        {
-
-        }
-    }
+  
 }
