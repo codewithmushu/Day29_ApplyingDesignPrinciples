@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,33 +9,40 @@ namespace StateCensusAnalyserProblem
 {
     public class StateCensusAnalyser
     {
-        private string filePath;
-        private CSVStateCensus csvStateCensus;
+        private readonly string filePath;
 
         public StateCensusAnalyser(string filePath)
         {
             this.filePath = filePath;
-            csvStateCensus = new CSVStateCensus(filePath);
         }
 
         public List<string[]> LoadData()
         {
-            CSVStateCensus csvStateCensus = new CSVStateCensus(filePath);
-            var data = csvStateCensus.GetData();
+            var csvData = new CSVStateCensus();
 
-            List<string[]> dataList = new List<string[]>();
-            foreach (var item in data)
+            try
             {
-                dataList.Add(item);
+                var data = csvData.GetData(filePath);
+                return data.ToList();
+            }
+            catch (FileNotFoundException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (InvalidDataException ex)
+            {
+                Console.WriteLine(ex.Message);
             }
 
-            return dataList;
+            return null;
         }
-
-        public int GetNumberOfRecodrs()
+    }
+    
+    public class CensusAnalyserException : Exception
+    {
+        public CensusAnalyserException(string message) : base(message)
         {
-            csvStateCensus.LoadData();
-            return csvStateCensus.GetNumberOfRecords();
+
         }
     }
 }
