@@ -9,12 +9,15 @@ namespace StateCensusAnalyserProblem
 {
     public class StateCensusAnalyser
     {
-        public int LoadData(string filePath, char delimiter = ',')
+        private CSVStateCensus csvStateCensus;
+
+        public StateCensusAnalyser(string filePath)
         {
-            CSVStateCensus csvData = new CSVStateCensus();
-            IEnumerable<string[]> data = csvData.GetData(filePath, delimiter);
-            return ((List<string[]>)data).Count;
+            this.csvStateCensus = new CSVStateCensus();
+            this.data = csvStateCensus.GetData(filePath).ToList();
         }
+
+        public List<string[]> data { get; set; }
     }
   
 }
