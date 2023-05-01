@@ -56,17 +56,21 @@ namespace StateCensusAnalyserProblem
             try
             {
                 string filePath = @"C:\Users\91997\source\repos\StateCensusAnalyserProblem\Analyser.csv";
-                StateCensusAnalyser analyser = new StateCensusAnalyser(filePath);
-                analyser.LoadData();
+                char delimiter = ';';
+
+                StateCensusAnalyser analyser = new StateCensusAnalyser();
+                int count = analyser.LoadData(filePath, delimiter);
+                Console.WriteLine($"Number of records: {count}");
             }
             catch (CensusAnalyserException ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"Error: {ex.Message}, Exception type: {ex.InnerException}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"Error: {ex.Message}");
             }
+
             Console.ReadKey();
 
         }
