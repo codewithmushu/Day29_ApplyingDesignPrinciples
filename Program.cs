@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static StateCensusAnalyserProblem.CSVStateCensus;
 
 namespace StateCensusAnalyserProblem
 {
@@ -55,23 +56,18 @@ namespace StateCensusAnalyserProblem
 
             try
             {
-                string filePath = @"C:\Users\91997\source\repos\StateCensusAnalyserProblem\Analyser.csv";
-                char delimiter = ';';
-
-                StateCensusAnalyser analyser = new StateCensusAnalyser();
-                int count = analyser.LoadData(filePath, delimiter);
-                Console.WriteLine($"Number of records: {count}");
+                StateCensusAnalyser analyser = new StateCensusAnalyser(@"C:\Users\91997\source\repos\StateCensusAnalyserProblem\Analyser.csv");
+                List<string[]> data = analyser.data;
+                foreach (var item in data)
+                {
+                    Console.WriteLine(string.Join(",", item));
+                }
+                Console.ReadKey();
             }
             catch (CensusAnalyserException ex)
             {
-                Console.WriteLine($"Error: {ex.Message}, Exception type: {ex.InnerException}");
+                Console.WriteLine($"Exception caught: {ex.Message} with type {ex.exceptionType}");
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
-
-            Console.ReadKey();
 
         }
     }
