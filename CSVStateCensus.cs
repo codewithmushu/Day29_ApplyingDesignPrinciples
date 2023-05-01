@@ -9,73 +9,48 @@ namespace StateCensusAnalyserProblem
 {
     public class CSVStateCensus
     {
-        private string filePath;
-        private List<string[]> data;
-
-        public CSVStateCensus(string filePath)
+        public IEnumerable<string[]> GetData(string filePath)
         {
-            this.filePath = filePath;
-            data = new List<string[]>();
-        }
-
-        public IEnumerable<string[]> GetData()
-        {
-            //using (var reader = new StreamReader(filePath))
-            //{
-            //    while (!reader.EndOfStream)
-            //    {
-            //        var line = reader.ReadLine();
-            //        var values = line.Split(',');
-
-            //        yield return values;
-            //    }
-            //}
-
             if (!File.Exists(filePath))
             {
-                throw new FileNotFoundException($"Could not find file at {filePath}");
+                throw new FileNotFoundException("File not found!", filePath);
             }
 
-            string[] fileLines = File.ReadAllLines(filePath);
-            if (fileLines.Length < 2)
+            var lines = File.ReadAllLines(filePath);
+
+            if (lines.Length <= 1)
             {
-                throw new CSVFormatException("File does not contain enough records");
+                throw new InvalidDataException("File is empty or does not contain any data.");
             }
 
-           
+            var header = lines[0].Split(',');
 
-            foreach (string line in fileLines)
+            // Check if the headers are valid
+            if (!header.SequenceEqual(new string[] { "State", "Population", "AreaInSqKm", "DensityPerSqKm" }))
             {
-                var values = line.Split(',');
+                throw new InvalidDataException("Invalid header! Header should contain State, Population, AreaInSqKm, and DensityPerSqKm in that order.");
+            }
 
-                if (values.Length != 3)
+            for (int i = 1; i < lines.Length; i++)
+            {
+                var values = lines[i].Split(',');
+
+                // Check if the number of columns match with the header
+                if (values.Length != header.Length)
                 {
-                    throw new CSVFormatException($"Invalid number of fields in line: {line}");
+                    throw new InvalidDataException($"Line {i + 1} has invalid number of columns.");
                 }
-                data.Add(values);
-                yield return values;    
+
+                // Check if the values are of correct type
+                if (!int.TryParse(values[1], out _) || !double.TryParse(values[2], out _) || !double.TryParse(values[3], out _))
+                {
+                    throw new InvalidDataException($"Line {i + 1} has invalid data type.");
+                }
+
+                yield return values;
             }
+
         }
 
-        public List<string[]> LoadData()
-        {
-            data.Clear();
-            foreach (string[] row in GetData())
-            {
-                data.Add(row);
-            }
-            return data;
-        }
-        public int GetNumberOfRecords()
-        {
-            return data.Count;
-        }
-    }
-
-    public class CSVFormatException : Exception
-    {
-        public CSVFormatException(string message) : base(message)
-        {
-        }
     }
 }
